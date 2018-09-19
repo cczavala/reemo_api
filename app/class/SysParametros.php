@@ -134,7 +134,7 @@ class SysParametros extends Dbconnection
 						"pruebasSanitarias"    => $row['pruebas_sanitarias_oblig'],
 						"enableCancelaAdmin"   => $row['enable_cancelacion_admin'],
 						"cancelaciones"        => $row['cancelaciones_guias'],
-						"identificadorEngorda" => $row['cancelaciones_guias']
+						"identificadorEngorda" => true
 					];
 					define(EDIT_IDENTIFICADORES_FEATURE,($row['editar_identificadores'] == 1 ? true : false));
 					define(ENABLE_ZONA_SANITARIA_PREDIO,($row['upp_individual'] == 1) ? true : false);

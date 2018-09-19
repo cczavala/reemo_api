@@ -2,27 +2,27 @@
 /**
 * Configuración de la aplicación *
 *
-* @version 1.0.0 Jun-18
+* @version 1.0.0 Sep-18
 */
-date_default_timezone_set('America/Mexico_City');
-define('SYSTEM_ENVIRONMENT','PROD');
+date_default_timezone_set( 'America/Mexico_City' );
+define( 'SYSTEM_ENVIRONMENT','PROD' );
 $C = [
-	'DEBUG_MODE'                  => false,
-    'SYSTEM_FULL_NAME'            => 'REEMO - API - Sistema de Movilización Pecuaria',
-    'SYSTEM_SHORT_NAME'           => 'REEMO - API',
-    'SYSTEM_YEAR'                 => date('Y'),
-    'SYSTEM_NAME_CLIENT'          => 'CNOG - SINIIGA',
-    'SYSTEM_DOCUMENT_PATH'        => realpath(dirname($_SERVER['DOCUMENT_ROOT'])),
-	'NUMBER_ATTEMPTS_LOGIN'       => 5,
-	'WAIT_TIME_LOGIN'             => 15
+	'DEBUG_MODE'            => false,
+    'SYSTEM_FULL_NAME'      => 'REEMO - API - Sistema de Movilización Pecuaria',
+    'SYSTEM_SHORT_NAME'     => 'REEMO - API',
+    'SYSTEM_YEAR'           => date( 'Y' ),
+    'SYSTEM_NAME_CLIENT'    => 'CNOG - SINIIGA',
+    'SYSTEM_DOCUMENT_PATH'  => realpath( dirname($_SERVER['DOCUMENT_ROOT']) ),
+	'NUMBER_ATTEMPTS_LOGIN' => 5,
+	'WAIT_TIME_LOGIN'       => 15
 ];
 switch (SYSTEM_ENVIRONMENT) {
 	case 'PROD':
-		$C['SYSTEM_VERSION'] = '1.0.0.05 re-api-prod';
+		$C['SYSTEM_VERSION'] = '1.0.0.07 re-api-prod';
 		// Datos de Conexión a la Base de Datos de SINIIGA *
 		$C['DB_HOST_PGN'] = '207.249.77.77';
 		$C['DB_USER_PGN'] = 'siniigao_reemo';
-		$C['DB_PASS_PGN'] = 're3m0U5er';
+		$C['DB_PASS_PGN'] = 'TeZ/2!3sp+p0';
 		$C['DB_NAME_PGN'] = 'siniigao_db';    // -> PRODUCCIÓN
 		//
 		// Datos de Conexión a la Base de Datos de REEMO *
@@ -38,7 +38,7 @@ switch (SYSTEM_ENVIRONMENT) {
 		$C['DB_NAME_REEMOMX'] = 'reemoorg_mex';
 		break;
 	case 'DEV':
-		$C['SYSTEM_VERSION'] = '1.0.0.05 re-api-dev';
+		$C['SYSTEM_VERSION'] = '1.0.0.07 re-api-dev';
 		// Datos de Conexión a la Base de Datos de SINIIGA *
 		/*$C['DB_HOST_PGN'] = '207.249.77.77';
 		$C['DB_USER_PGN'] = 'siniigao_reemo';

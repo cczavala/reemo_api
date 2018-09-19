@@ -40,6 +40,7 @@ class EndPointController extends SysForm
             if( $this->_sysParametros->validateOpenCloseSystemTime() ) {
                 $datos = self::parseString();
                 $this->setCveEdo($token->result['usuario']['cveEdo']);
+                $this->setUserId($token->result['usuario']['id']);
                 switch ($_SERVER['REQUEST_METHOD']) {
                     case 'GET':
                         return $this->evaluateMovilizacion($datos);

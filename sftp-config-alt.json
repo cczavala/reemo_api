@@ -19,7 +19,7 @@
     "password": "R3em0@dash14",
     "port": "1157",
     
-    "remote_path": "/home/reemoorg/public_html/api_dev/",
+    "remote_path": "/home/reemoorg/public_html/api-test/v1/",
     "ignore_regexes": [
         "\\.sublime-(project|workspace)", "sftp-config(-alt\\d?)?\\.json",
         "sftp-settings\\.json", "/venv/", "\\.svn/", "\\.hg/", "\\.git/",
