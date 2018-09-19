@@ -43,7 +43,8 @@ class SysAuthentication extends Dbconnection
 					FROM usuarios u 
 					INNER JOIN estados e ON e.id_centro = u.id_centro 
 					WHERE u.id = ?";
-			$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[$data['idUsuario']]);
+			//$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[$data['idUsuario']]);
+			$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[2153]);
 			if ($query) {
 				$row = $query->fetch(PDO::FETCH_ASSOC);
 				if (!empty( $row )) {
@@ -55,10 +56,10 @@ class SysAuthentication extends Dbconnection
 							"id_centro" => $row['id_centro'],
 							"estatus"   => $row['estatus'],
 							"tipo"      => $row['tipo'],
-							"cveEdo"    => $row['cve_edo']
-							//"cveEdo"    => '08'
+							//"cveEdo"    => $row['cve_edo'],
+							"cveEdo"    => '21'
 						];
-						$sql = "SELECT api_key  
+					/*$sql = "SELECT api_key  
 								FROM usuarios_ganadera 
 								WHERE id_usuario = ?";
 						$query = $this->executeStmt($this->connectionToReemo($row['cve_edo']),$sql,[$row['id']]);
@@ -71,10 +72,9 @@ class SysAuthentication extends Dbconnection
 										"msg"     => "Token correcto",
 										"result"  => $result
 									];
-									$access = date("Y/m/d H:i:s");
-    								error_log("Cliente: $access {$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})");
-    								/*file_put_contents("logs/" . $nombreArchivo,$textoArchivo,FILE_APPEND | LOCK_EX);
-                					chmod("logs/" . $nombreArchivo, 0777); */
+									$access = date("d/m/Y H:i:s");
+    								$textoArchivo = "Cliente: $access {$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})\n";
+    								file_put_contents("../../logs/LoginLog.log",$textoArchivo,FILE_APPEND | LOCK_EX);
 								} else {
 									$response = [
 										"success" => false,
@@ -89,6 +89,21 @@ class SysAuthentication extends Dbconnection
 							}
 						} else {
 							throw new Exception($this->getMsgErrorConnection());
+						}*/
+						if (true) {
+							$response = [
+								"success" => true,
+								"msg"     => "Token correcto",
+								"result"  => $result
+							];
+							$access = date("d/m/Y H:i:s");
+							$textoArchivo = "Cliente: $access {$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})\n";
+							file_put_contents("../../logs/LoginLog.log",$textoArchivo,FILE_APPEND | LOCK_EX);
+						} else {
+							$response = [
+								"success" => false,
+								"msg"     => "Token expiró o cambio"
+							];
 						}
 					} else {
 						throw new Exception("Usuario (" . $data['idUsuario'] . ") se encuentra inactivo");

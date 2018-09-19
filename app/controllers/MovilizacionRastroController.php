@@ -18,9 +18,27 @@ class MovilizacionRastroController extends EndPointController
         $this->_cveEdo = $value;
     }
 
+    public function setUserId($value)
+    {
+        $this->_userId = $value;
+    }
+
     public function index()
     {
-        return self::processRequest();
+        try {
+            if ($_SERVER['REQUEST_METHOD'] == "GET") {
+                return self::processRequest();
+            } else {
+                throw new Exception("Método no permitido. Acceso denegado.");
+            }
+        } catch (Exception $e) {
+            error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
+            $rsrc = [
+                "calificacion" => 0,
+                "motivo"       => $e->getMessage()
+            ];
+        }
+        echo json_encode( $rsrc );
     }
 
     /**

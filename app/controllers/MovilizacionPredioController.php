@@ -11,6 +11,7 @@ class MovilizacionPredioController extends EndPointController
 {
 
     private $_cveEdo;
+    private $_userId;
     private $_tipoPredioOrigen;
     private $_tipoPredioDestino;
 
@@ -19,9 +20,27 @@ class MovilizacionPredioController extends EndPointController
         $this->_cveEdo = $value;
     }
 
+    public function setUserId($value)
+    {
+        $this->_userId = $value;
+    }
+
 	public function index()
 	{
-		return self::processRequest();
+        try {
+            if ($_SERVER['REQUEST_METHOD'] == "GET") {
+                return self::processRequest();
+            } else {
+                throw new Exception("Método no permitido. Acceso denegado.");
+            }
+        } catch (Exception $e) {
+            error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
+            $rsrc = [
+                "calificacion" => 0,
+                "motivo"       => $e->getMessage()
+            ];
+        }
+        echo json_encode( $rsrc );
 	}
 
 	/**
@@ -470,14 +489,24 @@ class MovilizacionPredioController extends EndPointController
             } else {
                 throw new Exception($rsrc['movilizacion']['motivo']);
             }
-            //$objLog = new Log($this->_cveEdo);
-            //$objLog->procesaLogValidacionesIdentificadores($request,$identificadores);
         } catch (Exception $e) {
             $rsrc["movilizacion"] = [
                 "calificacion" => 0,
                 "motivo"       => $e->getMessage()
             ];
         }
+        $objLog = new SysLog($this->_cveEdo);
+        $dataMov = [
+            "tipo_movil"      => 1,
+            "motivo"          => intval( $request['motivo'] ),
+            "upp_origen"      => $request['origen'],
+            "upp_destino"     => $request['destino'],
+            "cve_edo_destino" => substr( $request['destino'],0,2 ),
+            "cve_mun_destino" => substr( $request['destino'],2,3 ),
+            "id_rastro"       => null,
+            "q_alta"          => $this->_userId
+        ];
+        //$objLog->procesaLogValidacionesIdentificadores($dataMov,$identificadores);
         if (!DEBUG_MODE) {
             if (isset( $rsrc['origen'] )) {
                 $result['origen']['predio']      = $rsrc['origen']['predio'];
