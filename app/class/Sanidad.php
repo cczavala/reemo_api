@@ -2,7 +2,7 @@
 /**
 * Clase Sanidad
 *
-* @version 1.0.0 Jul-18
+* @version 1.0.0 Oct-18
 */
 
 class Sanidad extends Dbconnection
@@ -27,12 +27,12 @@ class Sanidad extends Dbconnection
 	}
 
 	/**
-	* Verifica en la base de datos si un predio cuenta con una cuarentena activa *
-	*
-	* @access public
-	* @param string $cvePredio cadena con la clave del predio UPP/PSG/PG. 
-	* @return array
-	*/
+	 * Verifica en la base de datos si un predio cuenta con una cuarentena activa *
+	 *
+	 * @access public
+	 * @param string $cvePredio cadena con la clave del predio UPP/PSG/PG. 
+	 * @return array $dato
+	 */
 	public function verificarCuarentenaPredio($cvePredio)
 	{
 		$dato = ["cuarentena" => false];
@@ -50,10 +50,10 @@ class Sanidad extends Dbconnection
 			    		}
 					}
 				} else {
-					throw new Exception($this->getMsgErrorConnection());
+					throw new ErrorException($this->getMsgErrorConnection());
 				}
 		    }
-		} catch (Exception $e) {
+		} catch (ErrorException $e) {
 			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__ . "|");
 		}
@@ -61,12 +61,12 @@ class Sanidad extends Dbconnection
 	}
 
 	/**
-	* Verifica en la base de datos si un predio UPP/PSG/PG es un corral autorizado de engorda *
-	*
-	* @access public
-	* @param string $cvePredio cadena con la clave del predio UPP/PSG/PG. 
-	* @return boolean
-	*/
+	 * Verifica en la base de datos si un predio UPP/PSG/PG es un corral autorizado de engorda *
+	 *
+	 * @access public
+	 * @param string $cvePredio cadena con la clave del predio UPP/PSG/PG. 
+	 * @return boolean
+	 */
 	public function verificaCorralAutorizado($cvePredio)
 	{
 		try {
@@ -85,9 +85,9 @@ class Sanidad extends Dbconnection
 		        	return false;
 		        }
 	        } else {
-				throw new Exception($this->getMsgErrorConnection());
+				throw new ErrorException($this->getMsgErrorConnection());
 		    }
-		} catch (Exception $e) {
+		} catch (ErrorException $e) {
 			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__ . "|");
 			return false;
@@ -95,12 +95,12 @@ class Sanidad extends Dbconnection
 	}
 
 	/**
-	* Verifica en las zonas sanitarias de un predio UPP/PSG/PG y las zonas sanitarias municipales *
-	*
-	* @access public
-	* @param string $cvePredio cadena con la clave del predio UPP/PSG/PG. 
-	* @return array
-	*/
+	 * Verifica en las zonas sanitarias de un predio UPP/PSG/PG y las zonas sanitarias municipales *
+	 *
+	 * @access public
+	 * @param string $cvePredio cadena con la clave del predio UPP/PSG/PG. 
+	 * @return array
+	 */
 	public function verificaZonaSanitaria($cvePredio)
 	{
 		$zonaPredio = null;
@@ -121,7 +121,7 @@ class Sanidad extends Dbconnection
 							$zonaPredio = null;
 						}
 					} else {
-						throw new Exception($this->getMsgErrorConnection());
+						throw new ErrorException($this->getMsgErrorConnection());
 					}
 				}
 			}
@@ -137,7 +137,7 @@ class Sanidad extends Dbconnection
 					$zonaMun = null;
 				}
 			} else {
-				throw new Exception($this->getMsgErrorConnection());
+				throw new ErrorException($this->getMsgErrorConnection());
 			}
 			if (!is_null( $zonaPredio ) && strlen(trim( $zonaPredio )) > 0) {
 				return ["zonaSanitaria" => $zonaPredio];
@@ -146,7 +146,7 @@ class Sanidad extends Dbconnection
 			} else {
 				return ["zonaSanitaria" => null];
 			}
-		} catch (Exception $e) {
+		} catch (ErrorException $e) {
 			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__ . "|");
 			return null;
@@ -154,15 +154,15 @@ class Sanidad extends Dbconnection
 	}
 
 	/**
-	* Valida si es posible movilizar el identificador en base a las zonas sanitarias del origen o del identificador y destino *
-	*
-	* @access public
-	* @param string $zonaOrigen cadena con la zona sanitaria del predio origen.
-	* @param string $zonaDestino cadena con la zona sanitaria del predio destino.
-	* @param string $cvePredioIdentificador cadena con la clave del predio actual del identificador.
-	* @param integer $perteneceAreteUppOrigen valor numérico de la situación de pertenencia del identificador.
-	* @return boolean
-	*/
+	 * Valida si es posible movilizar el identificador en base a las zonas sanitarias del origen o del identificador y destino *
+	 *
+	 * @access public
+	 * @param string $zonaOrigen cadena con la zona sanitaria del predio origen.
+	 * @param string $zonaDestino cadena con la zona sanitaria del predio destino.
+	 * @param string $cvePredioIdentificador cadena con la clave del predio actual del identificador.
+	 * @param integer $perteneceAreteUppOrigen valor numérico de la situación de pertenencia del identificador.
+	 * @return boolean
+	 */
 	public function validaZonaSanitaria($zonaOrigen,$zonaDestino,$cvePredioIdentificador = null,$perteneceAreteUppOrigen = 1)
 	{
 	    switch ($perteneceAreteUppOrigen) {
@@ -223,6 +223,16 @@ class Sanidad extends Dbconnection
 		            return false;
 		        } else if ($zonaIdentificador == 'B' && $zonaDestino == 'B') {
 		            return true;
+		        } else if ($zonaIdentificador == 'B' && $zonaDestino == 'C') {
+		            return false;
+		        } else if ($zonaIdentificador == 'C' && $zonaDestino == 'A') {
+		            return false;
+		        } else if ($zonaIdentificador == 'C' && $zonaDestino == 'B') {
+		            return true;
+		        } else if ($zonaIdentificador == 'A' && $zonaDestino == 'C') {
+		            return true;
+		        } else if ($zonaIdentificador == 'C' && $zonaDestino == 'C') {
+		            return true;
 		        } else {
 		            return false;
 		        }
@@ -235,6 +245,16 @@ class Sanidad extends Dbconnection
 		        } else if ($zonaOrigen == 'B' && $zonaDestino == 'A') {
 		            return false;
 		        } else if ($zonaOrigen == 'B' && $zonaDestino == 'B') {
+		            return true;
+		        } else if ($zonaOrigen == 'B' && $zonaDestino == 'C') {
+		            return false;
+		        } else if ($zonaOrigen == 'C' && $zonaDestino == 'A') {
+		            return false;
+		        } else if ($zonaOrigen == 'C' && $zonaDestino == 'B') {
+		            return true;
+		        } else if ($zonaOrigen == 'A' && $zonaDestino == 'C') {
+		            return true;
+		        } else if ($zonaOrigen == 'C' && $zonaDestino == 'C') {
 		            return true;
 		        } else {
 		            return false;

@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteRule ^movilizaPredio$ app/controllers/MovilizacionPredioController.php
+    RewriteRule ^movilizaSinPredio$ app/controllers/MovilizacionSinPredioController.php
+    RewriteRule ^movilizaRastro$ app/controllers/MovilizacionRastroController.php
+    RewriteRule ^movilizaPost$ app/controllers/MovilizacionPostController.php
+    RewriteRule ^movilizaCancela$ app/controllers/MovilizacionCancelaController.php
+</IfModule>

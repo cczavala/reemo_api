@@ -2,7 +2,11 @@
 /**
 * Configuración de la aplicación *
 *
+<<<<<<< HEAD
 * @version 1.0.0 Sep-18
+=======
+* @version 1.0.1 Mar-19
+>>>>>>> development
 */
 date_default_timezone_set( 'America/Mexico_City' );
 define( 'SYSTEM_ENVIRONMENT','PROD' );
@@ -18,12 +22,21 @@ $C = [
 ];
 switch (SYSTEM_ENVIRONMENT) {
 	case 'PROD':
+<<<<<<< HEAD
 		$C['SYSTEM_VERSION'] = '1.0.0.07 re-api-prod';
 		// Datos de Conexión a la Base de Datos de SINIIGA *
 		$C['DB_HOST_PGN'] = '207.249.77.77';
 		$C['DB_USER_PGN'] = 'siniigao_reemo';
 		$C['DB_PASS_PGN'] = 'TeZ/2!3sp+p0';
 		$C['DB_NAME_PGN'] = 'siniigao_db';    // -> PRODUCCIÓN
+=======
+		$C['SYSTEM_VERSION'] = '1.0.1.03 re-api-prod';
+		// Datos de Conexión a la Base de Datos de SINIIGA *
+		$C['DB_HOST_PGN'] = '201.150.33.6';
+		$C['DB_USER_PGN'] = 'siniigam_reemo';
+		$C['DB_PASS_PGN'] = 'TeZ/2!3sp+p0';
+		$C['DB_NAME_PGN'] = 'siniigam_db';    // -> PRODUCCIÓN
+>>>>>>> development
 		//
 		// Datos de Conexión a la Base de Datos de REEMO *
 		$C['DB_HOST_REEMO'] = 'localhost';
@@ -38,28 +51,15 @@ switch (SYSTEM_ENVIRONMENT) {
 		$C['DB_NAME_REEMOMX'] = 'reemoorg_mex';
 		break;
 	case 'DEV':
+<<<<<<< HEAD
 		$C['SYSTEM_VERSION'] = '1.0.0.07 re-api-dev';
+=======
+		$C['SYSTEM_VERSION'] = '1.0.1.03 re-api-dev';
+>>>>>>> development
 		// Datos de Conexión a la Base de Datos de SINIIGA *
-		/*$C['DB_HOST_PGN'] = '207.249.77.77';
-		$C['DB_USER_PGN'] = 'siniigao_reemo';
-		$C['DB_PASS_PGN'] = 're3m0U5er';
-		$C['DB_NAME_PGN'] = 'dashmx_siniiga';
-		$C['DB_NAME_PGN'] = 'siniigao_curso'; // -> DESARROLLO
-		//
-		// Datos de Conexión a la Base de Datos de REEMO *
-		$C['DB_HOST_REEMO'] = '207.249.77.100';
-		$C['DB_USER_REEMO'] = 'reemoroot';
-		$C['DB_PASS_REEMO'] = 'C0t4ms42018';
-		$C['DB_NAME_REEMO'] = 'reemoorg_movilizacion'; // -> DESAROLLO
-		// DB REEMO_MX
-		$C['DB_HOST_REEMOMX'] = '207.249.77.100';
-		$C['DB_USER_REEMOMX'] = 'reemoroot';
-		$C['DB_PASS_REEMOMX'] = 'C0t4ms42018';
-		$C['DB_NAME_REEMOMX'] = 'reemoorg_mex';*/
-		$C['DB_HOST_PGN'] = '207.249.77.77';
-		$C['DB_USER_PGN'] = 'siniigao_reemo';
-		$C['DB_PASS_PGN'] = 're3m0U5er';
-		$C['DB_NAME_PGN'] = 'dashmx_siniiga';
+		$C['DB_HOST_PGN'] = '201.150.33.6';
+		$C['DB_USER_PGN'] = 'siniigam_reemo';
+		$C['DB_PASS_PGN'] = 'TeZ/2!3sp+p0';
 		$C['DB_NAME_PGN'] = 'siniigao_curso'; // -> DESARROLLO
 		//
 		// Datos de Conexión a la Base de Datos de REEMO *
@@ -74,7 +74,7 @@ switch (SYSTEM_ENVIRONMENT) {
 		$C['DB_NAME_REEMOMX'] = 'reemoorg_mex';
 		break;
 	case 'CAP':
-		$C['SYSTEM_VERSION'] = '1.0.0.05 dm-api-prod';
+		$C['SYSTEM_VERSION'] = '1.0.1.03 dm-api-prod';
 		// Datos de Conexión a la Base de Datos de SINIIGA *
 		$C['DB_HOST_PGN'] = 'localhost';
 		$C['DB_USER_PGN'] = 'dashmx_usuario';
@@ -95,12 +95,12 @@ switch (SYSTEM_ENVIRONMENT) {
 		$C['DB_NAME_REEMOMX'] = 'dashmx_mex';
 		break;
 	case 'LOCAL':
-		$C['SYSTEM_VERSION'] = '1.0.0.05 local-api-prod';
+		$C['SYSTEM_VERSION'] = '1.0.1.03 local-api-prod';
 		// Datos de Conexión a la Base de Datos de SINIIGA *
 		$C['DB_HOST_PGN'] = 'localhost';
 		$C['DB_USER_PGN'] = 'dashmx_usuario';
 		$C['DB_PASS_PGN'] = 'u5u4r10';
-		$C['DB_NAME_PGN'] = 'siniigao_db';
+		$C['DB_NAME_PGN'] = 'siniigam_db';
 		//
 		// Datos de Conexión a la Base de Datos de REEMO *
 		$C['DB_HOST_REEMO'] = 'localhost';

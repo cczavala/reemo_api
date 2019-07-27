@@ -2,7 +2,7 @@
 /**
 * Clase Identificador
 *
-* @version 1.0.0 Jul-18
+* @version 1.0.0 Oct-18
 */
 
 class Identificador extends Dbconnection
@@ -29,11 +29,19 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Se obtienen los identificadores de las ventanillas *
 	*
 	* @access public
 	* @return array $datos
 	*/
+=======
+	 * Obtiene todas las ventanillas (centros) de SINIIGA *
+	 *
+	 * @access public
+	 * @return array $datos
+	 */
+>>>>>>> development
 	public function getCentros()
 	{
 		$datos = [];
@@ -51,6 +59,7 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Se obtienen los identificadores de las ventanillas del estado *
 	*
 	* @access public
@@ -83,6 +92,40 @@ class Identificador extends Dbconnection
 	*/
 	public function getNombreTablaTarjetas($cveCentro,$especieAnimal)
 	{
+=======
+	 * Obtiene todas las ventanillas (centros) de SINIIGA del estado solamente *
+	 *
+	 * @access public
+	 * @param string $cveEdo
+	 * @return array $datos
+	 */
+	public function getCentrosEdo($cveEdo)
+	{
+		$datos = [];
+		$sql = "SELECT id_centro 
+				FROM centros 
+				WHERE id_centro > 1 AND (tipo_centro = 1 OR tipo_centro = 5) AND dep_aretes <> '' AND cve_edo = ?
+				ORDER BY id_centro ASC";
+		$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[$cveEdo]);
+	    if (!empty( $query )) {
+			while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+				$datos[] = $row['id_centro'];
+			}
+		}
+		return $datos;
+	}
+
+	/**
+	 * Forma el nombre de la tabla de tarjetas al identificador del animal *
+	 *
+	 * @access public
+	 * @param integer $cveCentro número identificador de la ventanilla.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @return string
+	 */
+	public function getNombreTablaTarjetas($cveCentro,$especieAnimal)
+	{
+>>>>>>> development
 		if (!empty( $cveCentro ) && !empty( $especieAnimal )) {
 			return "tarjetas_" . str_pad( $cveCentro,3,'0',STR_PAD_LEFT ) . $especieAnimal;
 		} else {
@@ -91,6 +134,7 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Verifica la longitud del identificador *
 	*
 	* @access public
@@ -98,6 +142,15 @@ class Identificador extends Dbconnection
 	* @param string $especieAnimal cadena del tipo de especie del animal.
 	* @return boolean
 	*/
+=======
+	 * Verifica la longitud del identificador *
+	 *
+	 * @access public
+	 * @param string $numIdentificador cadena del número de identificador del animal.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @return boolean
+	 */
+>>>>>>> development
 	public function validaLongitudIdentificador($numIdentificador = null,$especieAnimal = 'b')
 	{
 		if (!is_null( $numIdentificador ) || trim( $numIdentificador ) != "") {
@@ -119,6 +172,7 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Verifica el identificador este compuesto por números *
 	*
 	* @access public
@@ -126,6 +180,15 @@ class Identificador extends Dbconnection
 	* @param string $especieAnimal cadena del tipo de especie del animal.
 	* @return boolean
 	*/
+=======
+	 * Verifica el identificador este compuesto por números *
+	 *
+	 * @access public
+	 * @param string $numIdentificador cadena del número de identificador del animal.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @return boolean
+	 */
+>>>>>>> development
 	public function validaIdentificadorNumerico($numIdentificador = null)
 	{
 		if (!is_null( $numIdentificador ) || trim( $numIdentificador ) != "") {
@@ -140,6 +203,7 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Verifica el identificador este dentro del rango válido de los códigos de identificadores *
 	*
 	* @access public
@@ -147,6 +211,15 @@ class Identificador extends Dbconnection
 	* @param string $especieAnimal cadena del tipo de especie del animal.
 	* @return boolean
 	*/
+=======
+	 * Verifica el identificador este dentro del rango válido de los códigos de identificadores *
+	 *
+	 * @access public
+	 * @param string $numIdentificador cadena del número de identificador del animal.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @return boolean
+	 */
+>>>>>>> development
 	public function validaCodigoIdentificador($numIdentificador = null,$especieAnimal = 'b')
 	{
 		if (!is_null( $numIdentificador ) || trim( $numIdentificador ) != "") {
@@ -180,12 +253,21 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Obtiene el código del motivo de baja del identificador *
 	*
 	* @access public
 	* @param integer $cveMotivoBaja número identificador del motivo de baja.
 	* @return integer
 	*/
+=======
+	 * Obtiene el código del motivo de baja del identificador *
+	 *
+	 * @access public
+	 * @param integer $cveMotivoBaja número identificador del motivo de baja.
+	 * @return integer
+	 */
+>>>>>>> development
 	public function getMotivoBaja($cveMotivoBaja)
 	{
 		switch ($cveMotivoBaja) {
@@ -249,6 +331,7 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Calcula la edad del animal en meses *
 	*
 	* @access public
@@ -257,6 +340,16 @@ class Identificador extends Dbconnection
 	* @param string $fecha cadena con la fecha de baja o de movilización para calcular hasta ese día.
 	* @return string $edad
 	*/
+=======
+	 * Calcula la edad del animal en meses *
+	 *
+	 * @access public
+	 * @param integer $mesNac número del mes de nacimiento del animal.
+	 * @param integer $yearNac número del año de nacimiento del animal.
+	 * @param string $fecha cadena con la fecha de baja o de movilización para calcular hasta ese día.
+	 * @return string $edad
+	 */
+>>>>>>> development
 	public function getEdadMeses($mesNac,$yearNac,$fecha = NULL)
 	{
 		if (is_null( $fecha )) {
@@ -305,6 +398,7 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Obtiene los datos generales de un identificador en base a la tabla de tarjetas de la(s) ventanilla(s) *
 	*
 	* @access public
@@ -313,6 +407,206 @@ class Identificador extends Dbconnection
 	* @param string $especieAnimal cadena del tipo de especie del animal.
 	* @return array $datos
 	*/
+	public function evaluaIdentificador($request,$numIdentificador,$especieAnimal = 'b')
+=======
+	 * Obtiene los datos generales de un identificador *
+	 *
+	 * @access public
+	 * @param string $numIdentificador cadena del número de identificador del animal.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @return array $datos
+	 */
+	public function getIdentificadorInfo($numIdentificador,$especieAnimal = 'b')
+>>>>>>> development
+	{
+		$datos = [];
+		try {
+			if ($this->validaLongitudIdentificador($numIdentificador,$especieAnimal)) {
+				if ($this->validaIdentificadorNumerico($numIdentificador)) {
+					if ($this->validaCodigoIdentificador($numIdentificador,$especieAnimal)) {
+						$centrosEdo = $this->getCentrosEdo($this->_cveEdo);
+						if (!empty( $centrosEdo )) {
+							foreach ($centrosEdo as $idCentro) {
+								$tablaTarjetas = $this->getNombreTablaTarjetas($idCentro,$especieAnimal);
+								if (!empty( $tablaTarjetas )) {
+									switch ($especieAnimal) {
+										case 'b':
+										case 'o':
+										case 'c':
+											$sql = "SELECT no_arete,id_upp,sexo,m_nac,a_nac,estatus,f_baja,motivo_baja,rastro_tif,
+													tipo,confirmar
+													FROM %s 
+													WHERE no_arete = ?";
+											$sql = sprintf($sql,$tablaTarjetas);
+											$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[$numIdentificador]);
+										    if (!empty( $query )) {
+												if ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+													$datos = [
+<<<<<<< HEAD
+=======
+														"numIdentificador" => $row['no_arete'],
+														"info"             => [
+															"edad"          => $this->getEdadMeses($row['m_nac'],$row['a_nac']),
+						                                    "sexo"          => intval( $row['sexo'] ),
+														    "predio"        => $row['id_upp'],
+													        "estatus"       => $row['estatus'],
+													        "fechaBaja"     => $row['f_baja'],
+													        "motivoBaja"    => $row['motivo_baja'],
+													        "muerte"        => $row['motivo_baja'],
+													        "claveRastro"   => $row['rastro_tif'],
+													        "tipo"          => $row['tipo'],
+													        "confirmar"     => $row['confirmar'],
+													        "tablaTarjetas" => $tablaTarjetas
+													    ]
+													];
+												}
+											}
+											break;
+										case 'a':
+											$sql = "SELECT no_arete,id_upp,DATE_FORMAT(f_areta,'%d-%m-%Y') AS fechaAretado,estatus,f_baja,motivo_baja 
+													FROM %s
+													WHERE no_arete = ?";
+											$sql = sprintf($sql,$tablaTarjetas);
+											$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[$numIdentificador]);
+										    if (!empty( $query )) {
+												if ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+													$datos = [
+														"numIdentificador" => $row['no_arete'],
+														"info"             => [
+															"predio"        => $row['id_upp'],
+													    	"estatus"       => $row['estatus'],
+													    	"tablaTarjetas" => $tablaTarjetas
+													    ]
+													];
+												}
+											}
+											break;
+									}
+								} else {
+									throw new Exception("Tabla de identificadores inválida.");
+								}
+							}
+							if (empty( $datos )) {
+								$datos = $this->getIdentificadorInfoSistema($request,$numIdentificador,$especieAnimal,$centrosEdo);
+							}
+						} else {
+							throw new Exception("Ventanillas autorizadas inválidas.");
+						}
+					} else {
+						$datos = [
+							"numIdentificador" => $numIdentificador,
+							"info"             => null,
+							"codeError"        => 40
+						];
+					}
+				} else {
+					$datos = [
+						"numIdentificador" => $numIdentificador,
+						"info"             => null,
+						"codeError"        => 42
+					];
+				}
+			} else {
+				$datos = [
+					"numIdentificador" => $numIdentificador,
+					"info"             => null,
+					"codeError"        => 43
+				];
+			}
+		} catch (Exception $e) {
+			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
+			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__);
+		}
+		return $datos;
+	}
+
+	/**
+	 * Obtiene los datos generales de un identificador buscando en todas las tablas de tarjetas del sistema *
+	 *
+	 * @access public
+	 * @param string $numIdentificador cadena del número de identificador del animal.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @param array $centrosEdo arreglo con las ventanillas del estado revisadas.
+	 * @return array $datos
+	 */
+	public function getIdentificadorInfoSistema($numIdentificador,$especieAnimal,$centrosEdo)
+	{
+		$datos = [];
+		foreach ($centrosEdo as $item) {
+			unset($this->_centros[$item]);
+		}
+		foreach ($this->_centros as $centro) {
+			switch ($especieAnimal) {
+				case 'b':
+				case 'o':
+				case 'c':
+					$sql = "SELECT no_arete,id_upp,sexo,m_nac,a_nac,estatus,f_baja,motivo_baja,rastro_tif,tipo,confirmar
+							FROM %s 
+							WHERE no_arete = ?";
+					$sql = sprintf($sql,$this->getNombreTablaTarjetas($centro,$especieAnimal));
+					$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[$numIdentificador]);
+				    if (!empty( $query )) {
+						if ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+							$datos = [
+								"numIdentificador" => $row['no_arete'],
+								"info"             => [
+									"edad"          => $this->getEdadMeses($row['m_nac'],$row['a_nac']),
+                                    "sexo"          => intval( $row['sexo'] ),
+								    "predio"        => $row['id_upp'],
+							        "estatus"       => $row['estatus'],
+							        "fechaBaja"     => $row['f_baja'],
+							        "motivoBaja"    => $row['motivo_baja'],
+							        "muerte"        => $row['motivo_baja'],
+							        "claveRastro"   => $row['rastro_tif'],
+							        "tipo"          => $row['tipo'],
+							        "confirmar"     => $row['confirmar'],
+							        "tablaTarjetas" => $tablaTarjetas
+							    ]
+							];
+							break;
+						}
+					}
+					break;
+				case 'a':
+					$sql = "SELECT no_arete,id_upp,estatus 
+							FROM %s 
+							WHERE no_arete = ?";
+					$sql = sprintf($sql,$this->getTablaTarjetas($centro,$especieAnimal));
+					$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[$numIdentificador]);
+				    if (!empty( $query )) {
+						if ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+							$datos = [
+								"numIdentificador" => $row['no_arete'],
+								"info"             => [
+									"predio"        => $row['id_upp'],
+							    	"estatus"       => $row['estatus'],
+							    	"tablaTarjetas" => $tablaTarjetas
+							    ]
+							];
+						}
+					}
+					break;
+			}
+		}
+		if (empty( $datos )) {
+			$datos = [
+				"numIdentificador" => $numIdentificador,
+				"info"             => null,
+				"codeError"        => 99
+			];
+		}
+		return $datos;
+	}
+
+	/**
+	 * Obtiene los datos generales de un identificador en base a la tabla de tarjetas de la(s) ventanilla(s) *
+	 *
+	 * @access public
+	 * @param array $request arreglo con la información del predio origen.
+	 * @param string $numIdentificador cadena del número de identificador del animal.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @return array $datos
+	 */
 	public function evaluaIdentificador($request,$numIdentificador,$especieAnimal = 'b')
 	{
 		$datos = [];
@@ -338,6 +632,7 @@ class Identificador extends Dbconnection
 										    if (!empty( $query )) {
 												if ($row = $query->fetch(PDO::FETCH_ASSOC)) {
 													$datos = [
+>>>>>>> development
 														"error"            => false,
 														"numIdentificador" => $row['no_arete'],
 														"info"             => [
@@ -417,6 +712,7 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Obtiene los datos generales de un identificador buscando en todas las tablas de tarjetas *
 	*
 	* @access public
@@ -426,6 +722,17 @@ class Identificador extends Dbconnection
 	* @param array $centrosEdo arreglo con las ventanillas del estado revisadas.
 	* @return array $datos
 	*/
+=======
+	 * Obtiene los datos generales de un identificador buscando en todas las tablas de tarjetas *
+	 *
+	 * @access public
+	 * @param array $request arreglo con la información del predio origen.
+	 * @param string $numIdentificador cadena del número de identificador del animal.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @param array $centrosEdo arreglo con las ventanillas del estado revisadas.
+	 * @return array $datos
+	 */
+>>>>>>> development
 	public function evaluaIdentificadorSistema($request,$numIdentificador,$especieAnimal,$centrosEdo)
 	{
 		$datos = [];
@@ -498,12 +805,21 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Verifica el identificador si cuenta con una movilización dentro de REEMO *
 	*
 	* @access public
 	* @param string $numIdentificador cadena del número de identificador del animal
 	* @return boolean
 	*/
+=======
+	 * Verifica el identificador si cuenta con una movilización dentro de REEMO *
+	 *
+	 * @access public
+	 * @param string $numIdentificador cadena del número de identificador del animal
+	 * @return boolean
+	 */
+>>>>>>> development
 	public function validaIdentificadorSistema($numIdentificador)
 	{
 		$movAreteEstado = false;
@@ -570,6 +886,7 @@ class Identificador extends Dbconnection
 	}
 
 	/**
+<<<<<<< HEAD
 	* Verifica el estatus de un identificador *
 	*
 	* @access public
@@ -577,6 +894,15 @@ class Identificador extends Dbconnection
 	* @param string $especieAnimal cadena del tipo de especie del animal.
 	* @return array $datos
 	*/
+=======
+	 * Verifica el estatus de un identificador *
+	 *
+	 * @access public
+	 * @param array $identificador arreglo con la información del identificador del animal.
+	 * @param string $especieAnimal cadena del tipo de especie del animal.
+	 * @return array $datos
+	 */
+>>>>>>> development
 	public function validaEstatusIdentificador($identificador,$especieAnimal = 'b')
 	{
 		$datos = [];

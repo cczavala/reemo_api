@@ -2,7 +2,7 @@
 /**
 * Clase Estado 
 *
-* @version 1.0.0 Jul-18
+* @version 1.0.0 Oct-18
 */
 
 class Estado extends Dbconnection
@@ -11,9 +11,9 @@ class Estado extends Dbconnection
 	private $_cveEdo;
 	private $_errorMsg;
 
-	public function __construct($cveEdo,$dbMx = NULL)
+	public function __construct($cveEdo,$dbMx = null)
 	{
-		parent::__construct(NULL,NULL,$dbMx,$cveEdo);
+		parent::__construct(null,null,$dbMx,$cveEdo);
 		if (!is_null( $cveEdo )) {
 			$this->_cveEdo = $cveEdo;
 		} else {
@@ -32,11 +32,11 @@ class Estado extends Dbconnection
 	}
 
 	/**
-	* Verifica si el municipio del estado existe *
-	*
-	* @access public
-	* @return boolean
-	*/
+	 * Verifica si el municipio del estado existe *
+	 *
+	 * @access public
+	 * @return boolean
+	 */
 	public function verificaEstadoMunicipio($cveEdo,$cveMun)
 	{
 		$datos = [];
@@ -57,11 +57,41 @@ class Estado extends Dbconnection
 					return false;
 				}
 			} else {
-		    	throw new Exception($this->getMsgErrorConnection());
+		    	throw new ErrorException($this->getMsgErrorConnection());
 		    }
-		} catch (Exception $e) {
+		} catch (ErrorException $e) {
 			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__ . "|");
+			return false;
+		}
+	}
+
+	/**
+	 * Obtiene la ventanilla (centro) SINIIGA de un predio *
+	 *
+	 * @access public
+	 * @param string $cvePredio cadena con el número identificador del predio UPP/PSG/PG.
+	 * @return array $datos
+	 */
+	public function getCentro($cvePredio)
+	{	
+		try {
+			$sql = "SELECT id_centro 
+					FROM estados 
+					WHERE cve_edo = SUBSTR(?,1,2) AND cve_mun = SUBSTR(?,3,3)
+					LIMIT 1";
+			$query = $this->executeStmt($this->connectionToSiniiga(),$sql,[$cvePredio,$cvePredio]);
+		    if ($query) {
+				if ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+					return "tarjetas_" . str_pad( $row['id_centro'],3,"0",STR_PAD_LEFT );
+				} else {
+					return "";
+				}
+			} else {
+				throw new ErrorException($this->getMsgErrorConnection());
+			}
+		} catch (ErrorException $e) {
+			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			return false;
 		}
 	}

@@ -2,7 +2,11 @@
 /**
 * Controlador del proceso de almacenaje de una movilización del SIGE (Puebla-21-PUE) al REEMO * 
 *
+<<<<<<< HEAD
 * @version 1.0.0 Jul-18
+=======
+* @version 1.0.0 Oct-18
+>>>>>>> development
 */
 
 require_once '../init.php';
@@ -11,6 +15,8 @@ class MovilizacionPostController extends EndPointController
 {
 
     private $_cveEdo;
+    private $_tipoPredioOrigen;
+    private $_tipoPredioDestino;
 
     public function setCveEdo($value)
     {
@@ -22,15 +28,30 @@ class MovilizacionPostController extends EndPointController
         $this->_userId = $value;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     *  Verifica si es válida la petición del servidor *
+     *
+     * @access public
+     * @return mixed
+     */
+>>>>>>> development
 	public function index()
 	{
         try {
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 return self::processRequest();
             } else {
+<<<<<<< HEAD
                 throw new Exception("Método no permitido. Acceso denegado.");
             }
         } catch (Exception $e) {
+=======
+                throw new ErrorException("Método no permitido. Acceso denegado.");
+            }
+        } catch (ErrorException $e) {
+>>>>>>> development
             error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
             $rsrc = [
                 "calificacion" => 0,
@@ -50,8 +71,7 @@ class MovilizacionPostController extends EndPointController
      */
     public function createMovilizacion($request)
     {   
-        $params  = [];
-        $tipoMov = (isset( $request['tipoMov'] ) ? $request['tipoMov'] : 0);
+        $params = [];
         try {
             $objMovilizacion = new Movilizacion($this->_cveEdo);
             foreach ($objMovilizacion->_fillable as $key => $value) {
@@ -96,9 +116,105 @@ class MovilizacionPostController extends EndPointController
                         }
                         if ($request[$value] < 0) {
                             throw new Exception("El valor debe ser mayor a 0 para el parámetro " . $objMovilizacion->_fillable[$key]);
+<<<<<<< HEAD
+=======
                         }
                         $params['data'][] = $request[$value];
                         break;
+                    case 'origen':
+                        if (strlen(trim( $request[$value] )) == 12) {
+                            if (substr(strtoupper( $request[$value] ),0,2) == $this->_cveEdo) {
+                                switch (substr(strtoupper( $request[$value] ),9,2)) {
+                                    case 'PG':
+                                        $objPg      = new Pg($this->_cveEdo);
+                                        $rsrcPredio = $objPg->getPgInfo($request[$value]);
+                                        break;
+                                    default:
+                                        switch (substr(strtoupper( $request[$value] ),9,1)) {
+                                            case 'P':
+                                                $objPsg     = new Psg($this->_cveEdo);
+                                                $rsrcPredio = $objPsg->getPsgInfo($request[$value]);
+                                                break;
+                                            default:
+                                                $objUpp     = new Upp($this->_cveEdo);
+                                                $rsrcPredio = $objUpp->getUppInfo($request[$value]);
+                                                break;
+                                        }
+                                        break;
+                                }
+                                if ($rsrcPredio['estatus'] == 1) {
+                                    $params['data'][] = $request[$value];
+                                } else {
+                                    throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . 
+                                    " presenta el siguiente error: " . $rsrcPredio['calificacion']);
+                                }
+                            } else {
+                                throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no pertenece a su estado");
+                            }
+                        } else {
+                            throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no cumple con la " . 
+                            "longitud de 12 caracteres");
+                        }
+                        break;
+                    case 'destino':
+                        $tipoMov = (isset( $request['tipoMov'] ) ? $request['tipoMov'] : 0);
+                        switch ($tipoMov) { 
+                            case 1:
+                                if (strlen(trim( $request[$value] )) == 12) {
+                                    switch (substr(strtoupper( $request[$value] ),9,2)) {
+                                        case 'PG':
+                                            $objPg      = new Pg($this->_cveEdo);
+                                            $rsrcPredio = $objPg->getPgInfo($request[$value]);
+                                            break;
+                                        default:
+                                            switch (substr(strtoupper( $request[$value] ),9,1)) {
+                                                case 'P':
+                                                    $objPsg     = new Psg($this->_cveEdo);
+                                                    $rsrcPredio = $objPsg->getPsgInfo($request[$value]);
+                                                    break;
+                                                default:
+                                                    $objUpp     = new Upp($this->_cveEdo);
+                                                    $rsrcPredio = $objUpp->getUppInfo($request[$value]);
+                                                    break;
+                                            }
+                                            break;
+                                    }
+                                    if ($rsrcPredio['estatus'] == 1) {
+                                        $params['data'][] = $request[$value];
+                                    } else {
+                                        throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . 
+                                        " presenta el siguiente error: " . $rsrcPredio['calificacion']);
+                                    }
+                                } else {
+                                    throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no cumple con la " . 
+                                    "longitud de 12 caracteres.");
+                                }
+                                break;
+                            case 2:
+                                if (strlen(trim( $request[$value] )) >= 1 && strlen(trim( $request[$value] )) <= 6) {
+                                    $objRastro  = new Rastro($this->_cveEdo);
+                                    $rsrcRastro = $objRastro->getRastroInfo($request[$value]);
+                                    if ($rsrcRastro['estatus'] == 1) {
+                                        // Para el campo upp_destino *
+                                        $params['data'][] = strtoupper( $request[$value] );
+                                        // Para el campo cve_rastro *
+                                        $params['data'][] = strtoupper( $request[$value] );
+                                    } else {
+                                        throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . 
+                                        " presenta el siguiente error: " . $rsrcRastro['calificacion']);
+                                    }
+                                } else {
+                                    throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no cumple con la " . 
+                                    "longitud mínima de 1 caracter y máxima de 6 caracteres.");
+                                }
+                                break;
+                            default:
+                                throw new Exception("Tipo de movilización desconocido.");
+                                break;
+>>>>>>> development
+                        }
+                        break;
+<<<<<<< HEAD
                     case 'origen':
                         if (strlen(trim( $request[$value] )) == 12) {
                             if (substr(strtoupper( $request[$value] ),0,2) != $this->_cveEdo) {
@@ -108,17 +224,61 @@ class MovilizacionPostController extends EndPointController
                         } else {
                             throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no cumple con la " . 
                             "longitud de 12 caractéres");
+=======
+                    case 'identificadores':
+                        $params['identificadores'] = explode(",",$request['identificadores']);
+                        if (!empty( $params['identificadores'] )) {
+                            foreach ($params['identificadores'] as $item) {
+                                if (strlen(trim( $item )) != 10) {
+                                    throw new Exception("Identificador $item no cumple con la longitud de 10 caracteres.");
+                                } else {
+                                    if (!ctype_digit( $item )) {
+                                        throw new Exception("Identificador $item inválido");
+                                    }
+                                }
+                            }
+                        } else {
+                            throw new Exception("No se cuenta con información de identificadores");
                         }
                         break;
-                    case 'destino':
-                        switch ($tipoMov) { 
-                            case 1:
-                                if (strlen(trim( $request[$value] )) == 12) {
-                                    $params['data'][] = $request[$value];
+                    case 'estatusMov':
+                        if (!ctype_digit( $request[$value] )) {
+                            throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " es un número inválido");
+                        }
+                        if (!$this->getEstatusMov($request[$value])) {
+                            throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no se encuentra en el catálogo.");
+                        }
+                        $params['data'][] = $request[$value];
+                        break;
+                    case 'tipoTransporte':
+                        if (!ctype_digit( $request[$value] )) {
+                            throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " es un número inválido");
+>>>>>>> development
+                        }
+                        if (!$this->verificaTipoTransporte($request[$value])) {
+                            throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no se encuentra en el catálogo.");
+                        }
+                        $params['data'][] = $request[$value];
+                        break;
+                    case 'dictamen':
+                        $dictamen = explode(",",$request['dictamen']);
+                        if (sizeof( $dictamen ) > 1) {
+                            $dictamenValues = [];
+                            foreach ($dictamen as $itemDictamen) {
+                                $requestDictamen = str_replace("%20"," ",$itemDictamen);
+                                $dictamenValue   = explode("%7C",$requestDictamen);
+                                if ($this->verificaDictamen(trim( $dictamenValue[0] ))) {
+                                    if (trim( $dictamenValue[1] ) != "") {
+                                        $dictamenValues[] = $dictamenValue[0] . "|" . $dictamenValue[1];
+                                    } else {
+                                        throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " con el dictamen " . 
+                                        trim( $dictamenValue[0] ) . " se encuentra vacío o nulo.");
+                                    }
                                 } else {
-                                    throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no cumple con la " . 
-                                    "longitud de 12 caractéres");
+                                    throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no se encuentra en " . 
+                                    "el catálogo.");
                                 }
+<<<<<<< HEAD
                                 break;
                             case 2:
                                 if (strlen(trim( $request[$value] )) == 5) {
@@ -129,11 +289,24 @@ class MovilizacionPostController extends EndPointController
                                 } else {
                                     throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no cumple con la " . 
                                     "longitud de 5 caractéres");
+=======
+                            }
+                            $params['data'][] = (!empty( $dictamenValues ) ? implode( ",",$dictamenValues ) : $dictamenValues);
+                        } else {
+                            $requestDictamen = str_replace("%20"," ",$request['dictamen']);
+                            $dictamenValue   = explode("%7C",$requestDictamen);
+                            if ($this->verificaDictamen(trim( $dictamenValue[0] ))) { 
+                                if (trim( $dictamenValue[1] ) != "") {
+                                    $params['data'][] = $dictamenValue[0] . "|" . $dictamenValue[1];
+                                } else {
+                                    throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " con el dictamen " . 
+                                    trim( $dictamenValue[0] ) . " se encuentra vacío o nulo.");
+>>>>>>> development
                                 }
-                                break;
-                            default:
-                                throw new Exception("Tipo de movilización desconocido");
-                                break;
+                            } else {
+                                throw new Exception("El parámetro " . $objMovilizacion->_fillable[$key] . " no se encuentra en " . 
+                                "el catálogo.");
+                            }
                         }
                         break;
                     case 'identificadores':
@@ -211,11 +384,19 @@ class MovilizacionPostController extends EndPointController
                         break;
                 }
             }
-            $rsrc['movilizacion'] = $objMovilizacion->saveMovilizacion($params);
+            if ($params['data'][5] != $params['data'][6]) {
+                $rsrc['movilizacion'] = $objMovilizacion->saveMovilizacion($params,'b');
+            } else {
+                throw new Exception("Los parámetros origen y destino no pueden ser iguales.");
+            }
         } catch (Exception $e) {
             $rsrc['movilizacion'] = [
                 "calificacion" => 0,
+<<<<<<< HEAD
                 "mensaje"      => "No es posible almacenar la movilización",
+=======
+                "mensaje"      => "No es posible almacenar la movilización.",
+>>>>>>> development
                 "motivo"       => $e->getMessage()
             ];
         }
