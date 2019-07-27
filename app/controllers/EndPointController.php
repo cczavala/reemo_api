@@ -2,7 +2,7 @@
 /**
 * Controlador de los procesos de peticiones a través de la red *
 *
-* @version 1.0.0 Jul-18
+* @version 1.0.0 Oct-18
 */
 
 require_once '../init.php';
@@ -60,7 +60,7 @@ class EndPointController extends SysForm
     }
 
     /**
-     * Valida el usuario y el token *
+     * Valida usuario y token *
      *
      * @access protected
      * @param array $data
@@ -73,10 +73,11 @@ class EndPointController extends SysForm
     }
 
     /**
-     * Función que muestra el mensaje de success y envía los datos obtenidos si es el caso *
+     * Muestra mensaje de success y envía la respuesta obtenida *
      *
      * @access protected
-     * @param array $data [description]
+     * @param string $code
+     * @param array $data
      * @return json
      */
     protected function successResponse($code = "",$data = [])
@@ -92,10 +93,10 @@ class EndPointController extends SysForm
     }
 
     /**
-     * Regresa el texto del código de error de una petición *
+     * Regresa texto del código de error de una petición *
      *
      * @access private 
-     * @param integer $codigo [description]
+     * @param integer $codigo
      * @return string
      */
     private function getStatusCodeMessage($codigo = null)
@@ -120,17 +121,16 @@ class EndPointController extends SysForm
     }
 
     /**
-     * Muestra el mensaje de error en base a una acción realizada *
+     * Muestra mensaje de error en base a una acción realizada *
      *
      * @access protected
-     * @param integer $id []
-     * @param array $datos []
+     * @param integer $id
+     * @param array $datos
      * @return json
      */
     protected function showError($id = false,$datos = [])
     {
         $errors = [
-            #0
             [
                 'success' => false,
                 'message' => "Acceso Denegado",
@@ -141,7 +141,6 @@ class EndPointController extends SysForm
                  ]
 
             ],
-            #1
             [
                 'success' => false,
                 'message' => "Acceso Denegado",
@@ -152,7 +151,6 @@ class EndPointController extends SysForm
                  ]
 
             ],
-            #2
             [
                 'success' => false,
                 'message' => "Peticion Incorrecta",
@@ -163,7 +161,6 @@ class EndPointController extends SysForm
                  ]
 
             ],
-            #3
             [
                 'success' => false,
                 'message' => $msg,
@@ -174,7 +171,6 @@ class EndPointController extends SysForm
                  ]
 
             ],
-            #4
             [
                 'success' => false,
                 'message' => "Sin Registros",
@@ -184,7 +180,6 @@ class EndPointController extends SysForm
                     'code'        => "REEMO-204-" . $this->setHeader(204)
                  ]
             ],
-            #5
             [
                 'success' => false,
                 'message' => "Sin Registros",
@@ -194,7 +189,6 @@ class EndPointController extends SysForm
                     'code'        => "REEMO-204-" . $this->setHeader(204)
                  ]
             ],
-            #6
             [
                 'success' => false,
                 'message' => "Sistema cerrado - Fuera de horario",
@@ -212,7 +206,7 @@ class EndPointController extends SysForm
      * Establece el formato del encabezado de una petición REST *
      *
      * @access protected
-     * @param integer $codigo [description]
+     * @param integer $codigo
      * @return string
      */
     protected function setHeader($codigo)
@@ -223,12 +217,12 @@ class EndPointController extends SysForm
     }
 
     /**
-     * Verifica si están correctos los valores ingresados *
+     * Verifica si es correcto el valor ingresado *
      *
      * @access public 
-     * @param array $data [description]
-     * @param object $clase [description]
-     * @param array $valoresFecha []
+     * @param array $data
+     * @param object $clase
+     * @param array $valoresFecha
      * @return array
      */
     public function parseRegister($data = [],$clase,$valoresFecha = [])
@@ -282,10 +276,10 @@ class EndPointController extends SysForm
     }
 
     /**
-     * Verifica si están correctamente los valores ingresados de la fecha *
+     * Verifica si es correcto el valor ingresado de la fecha *
      *
      * @access public 
-     * @param string $fecha [description]
+     * @param string $fecha
      * @return array
      */
     public function checkFecha($fecha = false)

@@ -14,7 +14,7 @@
 	<body>
 		<header>
 			<div style="margin-left: -150px;">
-				<img src='images/logo_SAGARPA100pxcolorH.png' height='100px' title='SAGARPA'>
+				<img src='images/logo_SADERLogo.png' height='100px' title='SADER'>
 				<img src='images/logo_reemo90.png' height='110px' title='REEMO'>
 				<img src='images/logo_CNOG200pxcolor.png'  height='90px' title='CNOG'>
 			</div>
@@ -27,5 +27,3 @@
 		<footer>
 			<img src='images/logo_SENASICA200pxgrises.png' height='90px' title='SENASICA'>
 			<img src='images/logo_SINIIGA200pxgrises.png' height='90px' title='SINIIGA'>
-		</footer>
-	</body>

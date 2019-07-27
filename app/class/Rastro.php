@@ -2,7 +2,7 @@
 /**
 * Clase Rastro.php
 *
-* @version 1.0.0 Jul-18
+* @version 1.0.0 Oct-18
 */
 
 class Rastro extends Dbconnection
@@ -39,12 +39,12 @@ class Rastro extends Dbconnection
 	}
 
 	/**
-	* Regresa la etiqueta del estatus *
-	*
-	* @access public
-	* @param integer $cveEstatus
-	* @return string
-	*/
+	 * Regresa la etiqueta del estatus *
+	 *
+	 * @access public
+	 * @param integer $cveEstatus
+	 * @return string
+	 */
 	public function getStatus($cveEstatus)
 	{
 		switch ($cveEstatus) {
@@ -61,12 +61,12 @@ class Rastro extends Dbconnection
 	}
 
 	/**
-	* Obtiene la información del rastro por su clave *
-	*
-	* @access public
-	* @param string $cveRastro
-	* @return array
-	*/
+	 * Obtiene la información del rastro por su clave *
+	 *
+	 * @access public
+	 * @param string $cveRastro
+	 * @return array
+	 */
 	public function getRastroInfo($cveRastro)
 	{
 		$datos = [];
@@ -90,7 +90,7 @@ class Rastro extends Dbconnection
 						"cveMun"       => str_pad( $row['cve_mun'],3,'0',STR_PAD_LEFT ),
 						"municipio"    => $row['municipio'],
 						"estatus"      => $row['estatus'],
-						"calificacion" => ($row['estatus'] == 1 ? "Vigente" : "Baja o suspendido"),
+						"calificacion" => ($row['estatus'] == 1 ? "Vigente." : "Baja o suspendido."),
 					];
 				} else {
 					$datos = [
@@ -104,13 +104,13 @@ class Rastro extends Dbconnection
 						"cveMun"       => '',
 						"municipio"    => '',
 						"estatus"      => 2,
-						"calificacion" => 'Rastro no existe',
+						"calificacion" => 'Rastro no existe.',
 					];
 				}
 			} else {
-				throw new Exception($this->getMsgErrorConnection());
+				throw new ErrorException($this->getMsgErrorConnection());
 			}
-		} catch (Exception $e) {
+		} catch (ErrorException $e) {
 			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__ . "|");
 		}

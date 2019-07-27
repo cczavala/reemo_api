@@ -2,7 +2,7 @@
 /**
 * Clase SysParametros
 *
-* @version 1.0.0 Jul-18
+* @version 1.0.0 Oct-18
 */
 
 class SysParametros extends Dbconnection
@@ -14,13 +14,13 @@ class SysParametros extends Dbconnection
 	private $_errorMsg;
 	private $_responseMsg;
 
-	public function __construct($userProfile,$cveEdo,$dbSiniiga = NULL,$dbReemo = NULL,$dbMx = NULL)
+	public function __construct($userProfile,$cveEdo,$dbSiniiga = null,$dbReemo = null,$dbMx = null)
 	{
 		parent::__construct($dbSiniiga,$dbReemo,$dbMx,$cveEdo);
 		if (is_int( $userProfile )) {
 			$this->_userProfile = $userProfile;
 		} else {
-			$this->_userProfile = NULL;
+			$this->_userProfile = null;
 		}
 		$this->_cveEdo = $cveEdo;
 		$this->getGlobalParameters();
@@ -48,13 +48,13 @@ class SysParametros extends Dbconnection
 	}
 
 	/**
-	* Consulta los parámetros globales del sistema *
-	*
-	* @access public
-	* @param string $returnType cadena con el tipo de regreso de datos (array o definir constantes).
-	* @return array $datos
-	*/
-	public function getGlobalParameters($returnType = NULL)
+	 * Consulta los parámetros globales del sistema *
+	 *
+	 * @access public
+	 * @param string $returnType cadena con el tipo de regreso de datos (array o definir constantes).
+	 * @return array $datos
+	 */
+	public function getGlobalParameters($returnType = null)
 	{
 		$datos = [];
 		try {
@@ -91,23 +91,23 @@ class SysParametros extends Dbconnection
 							break;
 					}
 				} else {
-					throw new Exception($this->getMsgErrorConnection());
+					throw new ErrorException($this->getMsgErrorConnection());
 				}
 			} else {
-				throw new Exception($this->getMsgErrorConnection());
+				throw new ErrorException($this->getMsgErrorConnection());
 			}
-		} catch (Exception $e) {
+		} catch (ErrorException $e) {
 			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__ . "|");
 		}
 	}
 
 	/**
-	* Consulta los parámetros del sistema en el estado *
-	*
-	* @access public
-	* @return array $datos
-	*/
+	 * Consulta los parámetros del sistema en el estado *
+	 *
+	 * @access public
+	 * @return array $datos
+	 */
 	public function getLocalParameters()
 	{
 		$datos = [];
@@ -138,20 +138,20 @@ class SysParametros extends Dbconnection
 					];
 					define(EDIT_IDENTIFICADORES_FEATURE,($row['editar_identificadores'] == 1 ? true : false));
 					define(ENABLE_ZONA_SANITARIA_PREDIO,($row['upp_individual'] == 1) ? true : false);
-					@define(MOVILIZA_SIN_UPP_FEATURE,($row['moviliza_sin_upp'] == 1) ? true : false);
-					@define(MOVILIZA_FUERA_SIN_UPP_FEATURE,($row['moviliza_fuera_sin_upp'] == 1 ? true : false));
-					@define(MOVILIZA_RASTRO_FEATURE,($row['moviliza_rastro'] == 1) ? true : false);
-					@define(MOVILIZA_OTRO_PREDIO_FEATURE,($row['moviliza_otro_predio'] == 1) ? true : false);
-					@define(ENABLE_CANCELACIONES_GUIAS_ADMIN,($row['enable_cancelacion_admin'] == 1) ? true : false);
-					@define(ENABLE_CANCELACIONES_GUIAS,($row['cancelaciones_guias'] == 1 ? true : false));
+					define(MOVILIZA_SIN_UPP_FEATURE,($row['moviliza_sin_upp'] == 1) ? true : false);
+					define(MOVILIZA_FUERA_SIN_UPP_FEATURE,($row['moviliza_fuera_sin_upp'] == 1 ? true : false));
+					define(MOVILIZA_RASTRO_FEATURE,($row['moviliza_rastro'] == 1) ? true : false);
+					define(MOVILIZA_OTRO_PREDIO_FEATURE,($row['moviliza_otro_predio'] == 1) ? true : false);
+					define(ENABLE_CANCELACIONES_GUIAS_ADMIN,($row['enable_cancelacion_admin'] == 1) ? true : false);
+					define(ENABLE_CANCELACIONES_GUIAS,($row['cancelaciones_guias'] == 1 ? true : false));
 					define(MOVILIZA_IDENTIFICADOR_ENGORDA,($row['cancelaciones_guias'] == 1 ? true : false));
 				} else {
-					throw new Exception($this->getMsgErrorConnection());
+					throw new ErrorException($this->getMsgErrorConnection());
 				}
 			} else {
-				throw new Exception($this->getMsgErrorConnection());
+				throw new ErrorException($this->getMsgErrorConnection());
 			}
-		} catch (Exception $e) {
+		} catch (ErrorException $e) {
 			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__ . "|");
 		}
@@ -159,11 +159,11 @@ class SysParametros extends Dbconnection
 	}
 
 	/**
-	* Consulta los horarios de servicio del estado *
-	*
-	* @access public
-	* @return array $datos
-	*/
+	 * Consulta los horarios de servicio del estado *
+	 *
+	 * @access public
+	 * @return array $datos
+	 */
 	public function getSchedulesTime()
 	{
 		$datos = [];
@@ -193,12 +193,12 @@ class SysParametros extends Dbconnection
 						"6"      => $row['horario_sabado'],
 					];
 				} else {
-					throw new Exception($this->getMsgErrorConnection());
+					throw new ErrorException($this->getMsgErrorConnection());
 				}
 			} else {
-				throw new Exception($this->getMsgErrorConnection());
+				throw new ErrorException($this->getMsgErrorConnection());
 			}
-		} catch (Exception $e) {
+		} catch (ErrorException $e) {
 			error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			$this->setErrorMsg($e->getMessage() . "|" . __METHOD__ . "|");
 		}
@@ -206,15 +206,15 @@ class SysParametros extends Dbconnection
 	}
 
 	/**
-	* Valida si el sistema se encuentra abierto o cerrado *
-	*
-	* @access public
-	* @return boolean
-	*/
+	 * Valida si el sistema se encuentra abierto o cerrado *
+	 *
+	 * @access public
+	 * @return boolean
+	 */
 	public function validateOpenCloseSystemTime()
 	{	
-		/*$parametrosHora = $this->getSchedulesTime();
-		$systemTime     = explode( "|",$parametrosHora[date( 'w' )] );
+		$parametrosHora = $this->getSchedulesTime();
+		$systemTime     = explode("|",$parametrosHora[date( 'w' )]);
 		$openTime       = $systemTime[0];
 		$closeTime      = $systemTime[1];
 		// Hora Actual *
@@ -228,7 +228,6 @@ class SysParametros extends Dbconnection
     		return true;
     	} else {
     		return false;
-    	}*/
-    	return true;
+    	}
 	}
 }

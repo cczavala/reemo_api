@@ -1,10 +1,10 @@
 <?php
 /**
-* Auto cargado de clases *
+* Auto carga de clases *
 *
-* @version 1.0.0 May-18
+* @version 1.0.0 Oct-18
 */
-// Autoload classes *
+
 function __autoload($class)
 {
 	$fileName = "app/class/" . $class . ".php";

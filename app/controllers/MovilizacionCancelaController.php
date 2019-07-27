@@ -2,7 +2,7 @@
 /**
 * Controlador del proceso de cancelación de una movilización * 
 *
-* @version 1.0.0 May-18
+* @version 1.0.0 Oct-18
 */
 
 require_once '../init.php';

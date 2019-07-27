@@ -2,7 +2,7 @@
 /**
 * Clase SysCatalogo
 *
-* @version 1.0.0 Jul-18
+* @version 1.0.0 Oct-18
 */
 
 require_once '../init.php';

@@ -2,9 +2,10 @@
 /**
 * Clase Upp
 *
-* @version 1.0.0 Jul-18
+* @version 1.0.0 Oct-18
 */
-Class Upp extends Dbconnection
+
+class Upp extends Dbconnection
 {
 	
 	private $_cveEdo;
@@ -54,10 +55,10 @@ Class Upp extends Dbconnection
 		    		];
 				}
 			} else {
-				throw new Exception($this->getMsgErrorConnection());
+				throw new ErrorException($this->getMsgErrorConnection());
 			}
         	return $rsrc;
-        } catch (Exception $e) {
+        } catch (ErrorException $e) {
             error_log("Error Runtime-API(REEMO_" . __METHOD__ . "): " . $e->getMessage() . " en " . __FILE__);
 			return false;
         }
